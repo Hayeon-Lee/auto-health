@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout)
 
-        button = findViewById(R.id.myButton)
+        button = findViewById(R.id.openGalleryButton)
         imageView = findViewById(R.id.imageView)
 
         button.setOnClickListener {
@@ -82,5 +82,9 @@ class MainActivity : ComponentActivity() {
     private fun selectImageFromGallery() {
         // 갤러리 열기
         getImageFromGallery.launch("image/*")
+    }
+
+    private fun doOcr() {
+
     }
 }

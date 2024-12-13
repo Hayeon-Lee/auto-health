@@ -9,7 +9,7 @@
 
     <!-- 버튼 -->
     <Button
-        android:id="@+id/myButton"
+        android:id="@+id/openGalleryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="갤러리 열기" />
@@ -22,4 +22,11 @@
         android:layout_marginTop="16dp"
         android:scaleType="centerCrop"
         android:background="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/doOcrButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="성분 추출하기" />
+
 </LinearLayout>
