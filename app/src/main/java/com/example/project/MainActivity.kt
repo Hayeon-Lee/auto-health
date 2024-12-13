@@ -12,11 +12,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import android.content.Intent
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var button: Button
+    private lateinit var openGallerybutton: Button
     private lateinit var imageView: ImageView
+    private lateinit var doOcrbutton: Button
 
     // Activity Result API를 활용한 권한 요청
     private val requestPermissionLauncher = registerForActivityResult(
@@ -47,11 +49,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout)
 
-        button = findViewById(R.id.myButton)
+        openGallerybutton = findViewById(R.id.openGalleryButton)
         imageView = findViewById(R.id.imageView)
+        doOcrbutton = findViewById(R.id.doOcrButton)
 
-        button.setOnClickListener {
+        openGallerybutton.setOnClickListener {
             checkPermissionAndOpenGallery()
+        }
+
+        doOcrbutton.setOnClickListener {
+            val intent = Intent(this, SecondActivity::class.java).apply {
+                putExtra("key", "value")
+            }
+            startActivity(intent)
         }
     }
 
@@ -82,5 +92,9 @@ class MainActivity : ComponentActivity() {
     private fun selectImageFromGallery() {
         // 갤러리 열기
         getImageFromGallery.launch("image/*")
+    }
+
+    private fun doOcr() {
+
     }
 }
