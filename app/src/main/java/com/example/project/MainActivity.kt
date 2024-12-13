@@ -1,8 +1,8 @@
 package com.example.project
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 
 class MainActivity : ComponentActivity() {
 
@@ -22,9 +23,23 @@ class MainActivity : ComponentActivity() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            openGallery()
+            selectImageFromGallery()
         } else {
             Toast.makeText(this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Activity Result API를 활용한 갤러리 결과 처리
+    private val getImageFromGallery = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            // Glide를 사용하여 이미지 로드
+            Glide.with(this)
+                .load(uri)
+                .into(imageView)
+        } else {
+            Toast.makeText(this, "이미지가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -47,9 +62,8 @@ class MainActivity : ComponentActivity() {
                     Manifest.permission.READ_MEDIA_IMAGES
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                openGallery()
+                selectImageFromGallery()
             } else {
-                // 새로운 권한 요청 방식
                 requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
             }
         } else {
@@ -58,18 +72,15 @@ class MainActivity : ComponentActivity() {
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                openGallery()
+                selectImageFromGallery()
             } else {
-                // 새로운 권한 요청 방식
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
     }
 
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK).apply {
-            type = "image/*"
-        }
-        startActivityForResult(intent, 101) // 이 부분은 Activity Result API로도 개선 가능
+    private fun selectImageFromGallery() {
+        // 갤러리 열기
+        getImageFromGallery.launch("image/*")
     }
 }
