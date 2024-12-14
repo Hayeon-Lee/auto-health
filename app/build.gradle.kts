@@ -63,4 +63,16 @@ dependencies {
     // Glide 추가
     implementation(libs.glide) // Glide 추가
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1") // Glide Compiler 추가
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+// Retrofit - Gson 컨버터 (JSON 변환용)
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+// OkHttp (Retrofit 기본 네트워크 라이브러리)
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+
+// OkHttp 로깅 인터셉터 (디버깅용)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 }
