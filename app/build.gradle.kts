@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -8,6 +10,15 @@ android {
     namespace = "com.example.project"
     compileSdk = 34
 
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    } else {
+        throw GradleException("local.properties 파일을 찾을 수 없습니다!")
+    }
+
     defaultConfig {
         applicationId = "com.example.project"
         minSdk = 24
@@ -16,6 +27,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // local.properties에서 API 정보 가져오기
+        buildConfigField("String", "NAVER_OCR_API_URL", "\"${localProperties["NAVER_OCR_API_URL"]}\"")
+        buildConfigField("String", "NAVER_OCR_API_KEY", "\"${localProperties["NAVER_OCR_API_KEY"]}\"")
     }
 
     buildTypes {
@@ -35,6 +50,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
@@ -63,4 +79,16 @@ dependencies {
     // Glide 추가
     implementation(libs.glide) // Glide 추가
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1") // Glide Compiler 추가
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+// Retrofit - Gson 컨버터 (JSON 변환용)
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+// OkHttp (Retrofit 기본 네트워크 라이브러리)
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+
+// OkHttp 로깅 인터셉터 (디버깅용)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 }
