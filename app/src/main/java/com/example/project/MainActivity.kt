@@ -106,13 +106,17 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun doOcr() {
-        val file = getFileFromUri(selectedImageUri!!)
-        if (file == null) {
-            Toast.makeText(this, "파일 변환 실패!", Toast.LENGTH_SHORT).show()
-            return
+        if (selectedImageUri == null) {
+            Toast.makeText(this, "사진을 골라주세요.", Toast.LENGTH_SHORT).show()
         }
         else {
-            Log.d("FileUriSuccess", "이미지 uri 파일 변환 성공!")
+            val file = getFileFromUri(selectedImageUri!!)
+            if (file == null) {
+                Toast.makeText(this, "파일 변환 실패!", Toast.LENGTH_SHORT).show()
+                return
+            } else {
+                Log.d("FileUriSuccess", "이미지 uri 파일 변환 성공!")
+            }
         }
     }
 
@@ -120,7 +124,8 @@ class MainActivity : ComponentActivity() {
         return try {
             // ContentResolver를 사용하여 파일 이름과 입력 스트림 가져오기
             val fileName = contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-                val nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
+                val nameIndex =
+                    cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
                 cursor.moveToFirst()
                 cursor.getString(nameIndex)
             } ?: return null
