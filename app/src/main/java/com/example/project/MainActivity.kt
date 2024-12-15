@@ -12,14 +12,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
-import android.content.Intent
 import android.util.Log
-import java.io.File
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import android.provider.OpenableColumns
-
+import kotlinx.coroutines.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.*
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.UUID
+import android.content.Intent
 
 class MainActivity : ComponentActivity() {
 
@@ -28,28 +29,20 @@ class MainActivity : ComponentActivity() {
     private lateinit var doOcrbutton: Button
     private var selectedImageUri: Uri? = null
 
-    // Activity Result API를 활용한 권한 요청
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
-        if (isGranted) {
-            selectImageFromGallery()
-        } else {
-            Toast.makeText(this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
-        }
+        if (isGranted) selectImageFromGallery()
+        else Toast.makeText(this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
     }
 
-    // Activity Result API를 활용한 갤러리 결과 처리
     private val getImageFromGallery = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         if (uri != null) {
-            // Glide를 사용하여 이미지 로드
             selectedImageUri = uri
             Log.d("GallerySelection", "Selected URI: $uri")
-            Glide.with(this)
-                .load(uri)
-                .into(imageView)
+            Glide.with(this).load(uri).into(imageView)
         } else {
             Toast.makeText(this, "이미지가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show()
         }
@@ -63,9 +56,7 @@ class MainActivity : ComponentActivity() {
         imageView = findViewById(R.id.imageView)
         doOcrbutton = findViewById(R.id.doOcrButton)
 
-        openGallerybutton.setOnClickListener {
-            checkPermissionAndOpenGallery()
-        }
+        openGallerybutton.setOnClickListener { checkPermissionAndOpenGallery() }
 
         doOcrbutton.setOnClickListener {
             doOcr()
@@ -77,70 +68,129 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun checkPermissionAndOpenGallery() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_MEDIA_IMAGES
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                selectImageFromGallery()
-            } else {
-                requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-            }
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.READ_EXTERNAL_STORAGE
+
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+            selectImageFromGallery()
         } else {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                selectImageFromGallery()
-            } else {
-                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
+            requestPermissionLauncher.launch(permission)
         }
     }
 
     private fun selectImageFromGallery() {
-        // 갤러리 열기
         getImageFromGallery.launch("image/*")
     }
 
     private fun doOcr() {
         if (selectedImageUri == null) {
             Toast.makeText(this, "사진을 골라주세요.", Toast.LENGTH_SHORT).show()
+            return
         }
-        else {
-            val file = getFileFromUri(selectedImageUri!!)
-            if (file == null) {
-                Toast.makeText(this, "파일 변환 실패!", Toast.LENGTH_SHORT).show()
-                return
-            } else {
-                Log.d("FileUriSuccess", "이미지 uri 파일 변환 성공!")
+
+        val file = getFileFromUri(selectedImageUri!!)
+        if (file != null) {
+            Toast.makeText(this, "OCR을 실행합니다...", Toast.LENGTH_SHORT).show()
+            Log.d("FileUriSuccess", "이미지 URI 파일 변환 성공!")
+            // 비동기 네트워크 작업 실행
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = callNaverOcrApi(file)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@MainActivity, "OCR 결과: $response", Toast.LENGTH_LONG).show()
+                    Log.d("OCR Response", response)
+                }
             }
+        } else {
+            Toast.makeText(this, "파일 변환 실패!", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun getFileFromUri(uri: Uri): File? {
         return try {
-            // ContentResolver를 사용하여 파일 이름과 입력 스트림 가져오기
             val fileName = contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-                val nameIndex =
-                    cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
+                val nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
                 cursor.moveToFirst()
                 cursor.getString(nameIndex)
             } ?: return null
 
-            // 캐시 디렉토리에 파일 복사
             val inputStream = contentResolver.openInputStream(uri) ?: return null
             val tempFile = File(cacheDir, fileName)
-            tempFile.outputStream().use { outputStream ->
-                inputStream.copyTo(outputStream)
-            }
-
-            tempFile // 복사된 임시 파일 반환
+            tempFile.outputStream().use { inputStream.copyTo(it) }
+            tempFile
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
+    }
+
+    private suspend fun callNaverOcrApi(file: File): String {
+        val apiURL = BuildConfig.NAVER_OCR_API_URL
+        val secretKey = BuildConfig.NAVER_OCR_API_KEY
+
+        Log.d("url", "$apiURL")
+        Log.d("key", "$secretKey")
+
+        return withContext(Dispatchers.IO) {
+            try {
+                val url = URL(apiURL)
+                val con = url.openConnection() as HttpURLConnection
+                val boundary = "----" + UUID.randomUUID().toString().replace("-", "")
+
+                con.apply {
+                    useCaches = false
+                    doInput = true
+                    doOutput = true
+                    readTimeout = 30000
+                    requestMethod = "POST"
+                    setRequestProperty("Content-Type", "multipart/form-data; boundary=$boundary")
+                    setRequestProperty("X-OCR-SECRET", secretKey)
+                }
+
+                val json = JSONObject().apply {
+                    put("version", "V2")
+                    put("requestId", UUID.randomUUID().toString())
+                    put("timestamp", System.currentTimeMillis())
+                    put("images", JSONArray().put(JSONObject().put("format", "jpg").put("name", "demo")))
+                }
+
+                DataOutputStream(con.outputStream).use { writeMultiPart(it, json.toString(), file, boundary) }
+
+                val responseCode = con.responseCode
+                val reader = BufferedReader(InputStreamReader(
+                    if (responseCode == 200) con.inputStream else con.errorStream
+                ))
+
+                val response = reader.readText()
+                reader.close()
+                response
+            } catch (e: Exception) {
+                e.printStackTrace()
+                "API 호출 실패: ${e.message}"
+            }
+        }
+    }
+
+    private fun writeMultiPart(out: OutputStream, jsonMessage: String, file: File, boundary: String) {
+        val sb = StringBuilder()
+        sb.append("--").append(boundary).append("\r\n")
+        sb.append("Content-Disposition:form-data; name=\"message\"\r\n\r\n")
+        sb.append(jsonMessage).append("\r\n")
+        out.write(sb.toString().toByteArray(Charsets.UTF_8))
+
+        if (file.exists()) {
+            val fileString = "Content-Disposition:form-data; name=\"file\"; filename=\"${file.name}\"\r\nContent-Type: application/octet-stream\r\n\r\n"
+            out.write(("--$boundary\r\n").toByteArray(Charsets.UTF_8))
+            out.write(fileString.toByteArray(Charsets.UTF_8))
+
+            FileInputStream(file).use { fis ->
+                val buffer = ByteArray(8192)
+                var count: Int
+                while (fis.read(buffer).also { count = it } != -1) {
+                    out.write(buffer, 0, count)
+                }
+            }
+            out.write("\r\n--$boundary--\r\n".toByteArray(Charsets.UTF_8))
+        }
+        out.flush()
     }
 }

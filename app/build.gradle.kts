@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -8,6 +10,15 @@ android {
     namespace = "com.example.project"
     compileSdk = 34
 
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    } else {
+        throw GradleException("local.properties 파일을 찾을 수 없습니다!")
+    }
+
     defaultConfig {
         applicationId = "com.example.project"
         minSdk = 24
@@ -16,6 +27,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // local.properties에서 API 정보 가져오기
+        buildConfigField("String", "NAVER_OCR_API_URL", "\"${localProperties["NAVER_OCR_API_URL"]}\"")
+        buildConfigField("String", "NAVER_OCR_API_KEY", "\"${localProperties["NAVER_OCR_API_KEY"]}\"")
     }
 
     buildTypes {
@@ -35,6 +50,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
