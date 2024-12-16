@@ -35,6 +35,7 @@ class SecondActivity : AppCompatActivity() {
         }
 
         // EditText 참조
+        val editName = findViewById<EditText>(R.id.editName)
         val editCalories = findViewById<EditText>(R.id.editCalories)
         val editCarbs = findViewById<EditText>(R.id.editCarbs)
         val editFat = findViewById<EditText>(R.id.editFat)
@@ -52,6 +53,7 @@ class SecondActivity : AppCompatActivity() {
         val editIron = findViewById<EditText>(R.id.editIron)
 
         // OCR 결과를 각 EditText에 채움
+        editName.setText(result["이름"]?.toString() ?: "")
         editCalories.setText(result["총열량"]?.toString() ?: "")
         editCarbs.setText(result["탄수화물"]?.toString() ?: "")
         editFat.setText(result["지방"]?.toString() ?: "")
@@ -91,11 +93,11 @@ class SecondActivity : AppCompatActivity() {
                 vitaminC = Mass.milligrams(editVitaminC.text.toString().toDoubleOrNull() ?: 0.0),
                 calcium = Mass.milligrams(editCalcium.text.toString().toDoubleOrNull() ?: 0.0),
                 iron = Mass.milligrams(editIron.text.toString().toDoubleOrNull() ?: 0.0),
-                name = "Example Meal", // 이름은 고정 값 또는 사용자 입력 추가 가능
+                name = editName.text.toString()?: null, // 이름은 고정 값 또는 사용자 입력 추가 가능
                 mealType = 1
             )
 
-            Log.d("SamsungHealthActivityTime", "Start Time: $nutritionData.startTime, End Time: $nutritionData.endTime")
+            Log.d("name", "$nutritionData.name")
 
             // NutritionRecord를 JSON으로 변환하여 전달
             val gson = Gson()
