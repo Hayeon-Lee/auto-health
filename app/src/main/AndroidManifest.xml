@@ -10,7 +10,7 @@
 
     <!--samsung health -->
     <uses-permission android:name="android.permission.health.READ_NUTRITION" />
-    <uses-permission android:name="android.permission.health.WRITE_NUTRITION" /> <!-- Check if Health Connect is installed -->
+    <uses-permission android:name="android.permission.health.WRITE_NUTRITION" />
 
     <application
         android:allowBackup="true"
