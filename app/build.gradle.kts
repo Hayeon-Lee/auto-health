@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.project"
-    compileSdk = 34
+    compileSdk = 35
 
     val localProperties = Properties()
     val localPropertiesFile = rootProject.file("local.properties")
@@ -21,8 +21,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.project"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = 26
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -91,4 +91,9 @@ dependencies {
 
 // OkHttp 로깅 인터셉터 (디버깅용)
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    //health 커넥트
+    implementation("androidx.health.connect:connect-client:1.1.0-alpha10")
+
+    implementation("com.google.code.gson:gson:2.10")
 }
