@@ -59,6 +59,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="총열량" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="kcal"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
             </LinearLayout>
 
             <!-- 탄수화물 -->
@@ -81,6 +89,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="탄수화물" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="g"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <!-- 지방 -->
@@ -103,6 +118,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="지방" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="g"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <!-- 단백질 -->
@@ -125,6 +147,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="단백질" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="g"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
             </LinearLayout>
 
             <!-- 포화지방 -->
@@ -147,6 +177,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="포화지방" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="g"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <!-- 트랜스지방 -->
@@ -169,6 +206,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="트랜스지방" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="g"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <!-- 콜레스테롤 -->
@@ -191,6 +235,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="콜레스테롤" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mg"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
             </LinearLayout>
 
             <!-- 나트륨 -->
@@ -213,6 +265,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="나트륨" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mg"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <!-- 칼륨 -->
@@ -235,6 +294,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="칼륨" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mg"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <!-- 식이섬유 -->
@@ -257,6 +323,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="식이섬유" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="g"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <!-- 당류 -->
@@ -279,6 +352,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="당류" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="g"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <!-- 비타민A-->
@@ -301,6 +381,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="비타민 A" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="%"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
             </LinearLayout>
 
             <!-- 비타민 C-->
@@ -323,6 +411,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="비타민 C" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="%"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <!-- 칼슘 -->
@@ -345,6 +440,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="칼슘" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="%"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <!-- 철분 -->
@@ -367,6 +469,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="철분" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="%"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
             </LinearLayout>
 
             <Button
