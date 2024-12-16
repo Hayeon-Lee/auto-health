@@ -135,7 +135,12 @@ class SecondActivity : AppCompatActivity() {
                         if (nutritionalItems.contains(currentText) && i + 1 < fields.length()) {
                             val nextField = fields.getJSONObject(i + 1)
                             val nextText = nextField.getString("inferText")
-                            result[currentText] = nextText
+
+                            // 정규식을 사용해 숫자와 소수점만 추출
+                            val numberMatch = Regex("""\d+(\.\d+)?""").find(nextText)
+                            if (numberMatch != null) {
+                                result[currentText] = numberMatch.value
+                            }
                         }
                     }
                 }
