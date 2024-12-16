@@ -94,4 +94,6 @@ dependencies {
 
     //health 커넥트
     implementation("androidx.health.connect:connect-client:1.1.0-alpha10")
+
+    implementation("com.google.code.gson:gson:2.10")
 }

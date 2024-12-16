@@ -1,6 +1,7 @@
 package com.example.project
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,6 +12,7 @@ import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.NutritionRecord
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import com.google.gson.Gson
 
 class SamsungHealthActivity : AppCompatActivity() {
 
@@ -26,6 +28,13 @@ class SamsungHealthActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_samsung_health)
 
+        val gson = Gson()
+        val nutritionJson = intent.getStringExtra("nutritionData")
+        if (nutritionJson != null) {
+            val nutritionRecord = gson.fromJson(nutritionJson, NutritionRecord::class.java)
+            // nutritionRecord를 사용하여 화면에 표시하거나 처리
+            Log.d("SamsungHealthActivity", "Received nutrition data: $nutritionRecord")
+        }
         // HealthConnectClient 초기화
         healthConnectClient = HealthConnectClient.getOrCreate(this)
 

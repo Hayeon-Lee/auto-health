@@ -6,6 +6,12 @@ import org.json.JSONObject
 import android.widget.Button
 import android.widget.EditText
 import android.content.Intent
+import androidx.health.connect.client.records.NutritionRecord
+import androidx.health.connect.client.units.Energy
+import androidx.health.connect.client.units.Mass
+import com.google.gson.Gson
+import java.time.Instant
+import java.time.ZoneOffset
 
 class SecondActivity : AppCompatActivity() {
 
@@ -63,7 +69,38 @@ class SecondActivity : AppCompatActivity() {
 
         sendSamsungHealthButton = findViewById(R.id.sendSamsungHealthButton)
         sendSamsungHealthButton.setOnClickListener {
-            var intent = Intent(this@SecondActivity, SamsungHealthActivity::class.java)
+            // NutritionRecord에 필요한 데이터 수집
+            val nutritionData = NutritionRecord(
+                startTime = Instant.now(),
+                startZoneOffset = ZoneOffset.UTC,
+                endTime = Instant.now().plusSeconds(3600), // 1시간 동안의 데이터
+                endZoneOffset = ZoneOffset.UTC,
+                energy = Energy.kilocalories(editCalories.text.toString().toDoubleOrNull() ?: 0.0),
+                totalCarbohydrate = Mass.grams(editCarbs.text.toString().toDoubleOrNull() ?: 0.0),
+                totalFat = Mass.grams(editFat.text.toString().toDoubleOrNull() ?: 0.0),
+                protein = Mass.grams(editProtein.text.toString().toDoubleOrNull() ?: 0.0),
+                saturatedFat = Mass.grams(editSaturatedFat.text.toString().toDoubleOrNull() ?: 0.0),
+                transFat = Mass.grams(editTransFat.text.toString().toDoubleOrNull() ?: 0.0),
+                cholesterol = Mass.milligrams(editCholesterol.text.toString().toDoubleOrNull() ?: 0.0),
+                sodium = Mass.milligrams(editSodium.text.toString().toDoubleOrNull() ?: 0.0),
+                potassium = Mass.milligrams(editPotassium.text.toString().toDoubleOrNull() ?: 0.0),
+                dietaryFiber = Mass.grams(editFiber.text.toString().toDoubleOrNull() ?: 0.0),
+                sugar = Mass.grams(editSugar.text.toString().toDoubleOrNull() ?: 0.0),
+                vitaminA = Mass.micrograms(editVitaminA.text.toString().toDoubleOrNull() ?: 0.0),
+                vitaminC = Mass.milligrams(editVitaminC.text.toString().toDoubleOrNull() ?: 0.0),
+                calcium = Mass.milligrams(editCalcium.text.toString().toDoubleOrNull() ?: 0.0),
+                iron = Mass.milligrams(editIron.text.toString().toDoubleOrNull() ?: 0.0),
+                name = "Example Meal", // 이름은 고정 값 또는 사용자 입력 추가 가능
+                mealType = 1
+            )
+
+            // NutritionRecord를 JSON으로 변환하여 전달
+            val gson = Gson()
+            val nutritionJson = gson.toJson(nutritionData)
+
+            val intent = Intent(this@SecondActivity, SamsungHealthActivity::class.java).apply {
+                putExtra("nutritionData", nutritionJson)
+            }
             startActivity(intent)
         }
 
