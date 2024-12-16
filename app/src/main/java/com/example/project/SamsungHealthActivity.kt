@@ -21,26 +21,28 @@ class SamsungHealthActivity : AppCompatActivity() {
         HealthPermission.getWritePermission(NutritionRecord::class),
     )
 
-    private lateinit var healthConnectClient: HealthConnectClient // lateinit으로 선언
+    private lateinit var healthConnectClient: HealthConnectClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_samsung_health)
 
-        val gson = Gson()
-        val nutritionJson = intent.getStringExtra("nutritionData")
-        if (nutritionJson != null) {
-            val nutritionRecord = gson.fromJson(nutritionJson, NutritionRecord::class.java)
-            // nutritionRecord를 사용하여 화면에 표시하거나 처리
-            Log.d("SamsungHealthActivity", "Received nutrition data: $nutritionRecord")
-        }
-        // HealthConnectClient 초기화
         healthConnectClient = HealthConnectClient.getOrCreate(this)
 
-        // 권한 확인 및 요청
-        lifecycleScope.launch { // Coroutine 사용
-            checkPermissionsAndRun()
+        val gson = Gson()
+        val nutritionJson = intent.getStringExtra("nutritionData")
+        Log.d("SamsungHealthActivityResult", "Nutrition Record JSON: $nutritionJson")
+        val nutritionRecord: NutritionRecord? = if (nutritionJson != null) {
+            gson.fromJson(nutritionJson, NutritionRecord::class.java)
+        } else {
+            null
+        }
+
+        lifecycleScope.launch {
+            if (nutritionRecord != null) {
+                insertReceivedNutritionRecord(nutritionRecord)
+            }
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -50,12 +52,16 @@ class SamsungHealthActivity : AppCompatActivity() {
         }
     }
 
-    suspend fun checkPermissionsAndRun() {
+    suspend fun insertReceivedNutritionRecord(nutritionRecord: NutritionRecord) {
         val granted = healthConnectClient.permissionController.getGrantedPermissions()
         if (granted.containsAll(PERMISSIONS)) {
-            // 권한이 이미 부여됨; 데이터 삽입 또는 읽기 작업 수행
+            try {
+                healthConnectClient.insertRecords(listOf(nutritionRecord))
+                Log.d("SamsungHealthActivity", "Nutrition record inserted successfully.")
+            } catch (e: Exception) {
+                Log.e("SamsungHealthActivity", "Failed to insert NutritionRecord", e)
+            }
         } else {
-            // 권한 요청
             requestPermissions.launch(PERMISSIONS)
         }
     }
@@ -63,9 +69,9 @@ class SamsungHealthActivity : AppCompatActivity() {
     val requestPermissionActivityContract = PermissionController.createRequestPermissionResultContract()
     val requestPermissions = registerForActivityResult(requestPermissionActivityContract) { granted ->
         if (granted.containsAll(PERMISSIONS)) {
-            // 권한이 성공적으로 부여됨
+            Log.d("SamsungHealthActivity", "Permissions granted.")
         } else {
-            // 필요한 권한이 부족함
+            Log.d("SamsungHealthActivity", "Permissions not granted.")
         }
     }
 }

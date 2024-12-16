@@ -6,6 +6,7 @@ import org.json.JSONObject
 import android.widget.Button
 import android.widget.EditText
 import android.content.Intent
+import android.util.Log
 import androidx.health.connect.client.records.NutritionRecord
 import androidx.health.connect.client.units.Energy
 import androidx.health.connect.client.units.Mass
@@ -93,6 +94,8 @@ class SecondActivity : AppCompatActivity() {
                 name = "Example Meal", // 이름은 고정 값 또는 사용자 입력 추가 가능
                 mealType = 1
             )
+
+            Log.d("SamsungHealthActivityTime", "Start Time: $nutritionData.startTime, End Time: $nutritionData.endTime")
 
             // NutritionRecord를 JSON으로 변환하여 전달
             val gson = Gson()
