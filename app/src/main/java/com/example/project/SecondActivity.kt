@@ -2,13 +2,14 @@ package com.example.project
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import org.json.JSONArray
 import org.json.JSONObject
-import android.widget.TextView
-import android.util.Log
+import android.widget.Button
 import android.widget.EditText
+import android.content.Intent
 
 class SecondActivity : AppCompatActivity() {
+
+    private lateinit var sendSamsungHealthButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +60,13 @@ class SecondActivity : AppCompatActivity() {
         editVitaminC.setText(result["비타민C"]?.toString() ?: "")
         editCalcium.setText(result["칼슘"]?.toString() ?: "")
         editIron.setText(result["철분"]?.toString() ?: "")
+
+        sendSamsungHealthButton = findViewById(R.id.sendSamsungHealthButton)
+        sendSamsungHealthButton.setOnClickListener {
+            var intent = Intent(this@SecondActivity, SamsungHealthActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     fun parseOcrResponse(response: String): Map<String, Any> {
