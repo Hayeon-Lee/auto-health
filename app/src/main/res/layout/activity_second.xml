@@ -7,15 +7,349 @@
     android:layout_height="match_parent"
     tools:context=".SecondActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="여기는 다른 화면입니다!"
-        android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- 총열량 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="총열량"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editCalories"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="총열량" />
+            </LinearLayout>
+
+            <!-- 탄수화물 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="탄수화물"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editCarbs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="탄수화물" />
+            </LinearLayout>
+
+            <!-- 지방 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="지방"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editFat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="지방" />
+            </LinearLayout>
+
+            <!-- 단백질 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="단백질"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editProtein"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="단백질" />
+            </LinearLayout>
+
+            <!-- 포화지방 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="포화지방"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editSaturatedFat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="포화지방" />
+            </LinearLayout>
+
+            <!-- 트랜스지방 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="트랜스지방"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editTransFat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="트랜스지방" />
+            </LinearLayout>
+
+            <!-- 콜레스테롤 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="콜레스테롤"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editCholesterol"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="콜레스테롤" />
+            </LinearLayout>
+
+            <!-- 나트륨 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="나트륨"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editSodium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="나트륨" />
+            </LinearLayout>
+
+            <!-- 칼륨 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="칼륨"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editPotassium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="칼륨" />
+            </LinearLayout>
+
+            <!-- 식이섬유 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="식이섬유"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editFiber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="식이섬유" />
+            </LinearLayout>
+
+            <!-- 당류 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="당류"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editSugar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="당류" />
+            </LinearLayout>
+
+            <!-- 비타민A-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="비타민 A"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editVitaminA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="비타민 A" />
+            </LinearLayout>
+
+            <!-- 비타민 C-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="비타민 C"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editVitaminC"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="비타민 C" />
+            </LinearLayout>
+
+            <!-- 칼슘 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="칼슘"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editCalcium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="칼슘" />
+            </LinearLayout>
+
+            <!-- 철분 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="철분"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/editIron"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="철분" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
