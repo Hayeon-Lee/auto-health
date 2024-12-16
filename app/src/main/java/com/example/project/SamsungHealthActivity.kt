@@ -9,6 +9,8 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.NutritionRecord
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class SamsungHealthActivity : AppCompatActivity() {
 
@@ -24,7 +26,13 @@ class SamsungHealthActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_samsung_health)
 
-        val healthConnectClient = HealthConnectClient.getOrCreate(this)
+        // HealthConnectClient 초기화
+        healthConnectClient = HealthConnectClient.getOrCreate(this)
+
+        // 권한 확인 및 요청
+        lifecycleScope.launch { // Coroutine 사용
+            checkPermissionsAndRun()
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -32,6 +40,7 @@ class SamsungHealthActivity : AppCompatActivity() {
             insets
         }
     }
+
     suspend fun checkPermissionsAndRun() {
         val granted = healthConnectClient.permissionController.getGrantedPermissions()
         if (granted.containsAll(PERMISSIONS)) {
@@ -41,6 +50,7 @@ class SamsungHealthActivity : AppCompatActivity() {
             requestPermissions.launch(PERMISSIONS)
         }
     }
+
     val requestPermissionActivityContract = PermissionController.createRequestPermissionResultContract()
     val requestPermissions = registerForActivityResult(requestPermissionActivityContract) { granted ->
         if (granted.containsAll(PERMISSIONS)) {
