@@ -532,7 +532,9 @@
                 android:id="@+id/sendSamsungHealthButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="samsung health로 전송하기" />
+                android:text="samsung health로 전송하기"
+                android:textColor="#ffffff"
+                android:background="@drawable/soft_button" />
 
         </LinearLayout>
     </ScrollView>
