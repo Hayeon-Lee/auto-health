@@ -21,6 +21,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.UUID
 import android.content.Intent
+import android.view.View
+import android.widget.TextView
 
 class UploadImageActivity : ComponentActivity() {
 
@@ -28,6 +30,7 @@ class UploadImageActivity : ComponentActivity() {
     private lateinit var imageView: ImageView
     private lateinit var doOcrbutton: Button
     private var selectedImageUri: Uri? = null
+    private lateinit var noImageText: TextView
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -39,12 +42,16 @@ class UploadImageActivity : ComponentActivity() {
     private val getImageFromGallery = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
+        noImageText = findViewById(R.id.noImageText)
         if (uri != null) {
             selectedImageUri = uri
             Log.d("GallerySelection", "Selected URI: $uri")
             Glide.with(this).load(uri).into(imageView)
+            noImageText.visibility = View.GONE
         } else {
             Toast.makeText(this, "이미지가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show()
+            noImageText.visibility = View.VISIBLE
+            imageView.setImageDrawable(null)
         }
     }
 

@@ -17,14 +17,30 @@
         android:background="@drawable/soft_button"/>
 
     <!-- 이미지를 표시할 ImageView -->
-    <ImageView
-        android:id="@+id/imageView"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:scaleType="centerCrop"
-        android:background="@drawable/image_view" />
+        android:layout_marginBottom="16dp">
+
+        <!-- ImageView -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@drawable/image_view" />
+
+        <!-- TextView - 기본적으로 표시되도록 설정 -->
+        <TextView
+            android:id="@+id/noImageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Selected Image"
+            android:textSize="18sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
     <Button
         android:id="@+id/doOcrButton"
