@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 배경색 -->
+    <solid android:color="#f5f5f5" />
+
+    <!-- 테두리 색상 및 두께 -->
+    <stroke
+        android:width="4dp"
+        android:color="#003458" /> <!-- 빨간색 테두리 -->
+
+</shape>
