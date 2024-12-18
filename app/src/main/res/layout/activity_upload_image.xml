@@ -28,8 +28,7 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:padding="2dp"
+            android:scaleType="fitCenter"
             android:background="@drawable/image_view" />
 
         <!-- TextView - 기본적으로 표시되도록 설정 -->
