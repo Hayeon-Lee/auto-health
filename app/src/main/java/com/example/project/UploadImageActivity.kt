@@ -46,7 +46,7 @@ class UploadImageActivity : ComponentActivity() {
         if (uri != null) {
             selectedImageUri = uri
             Log.d("GallerySelection", "Selected URI: $uri")
-            Glide.with(this).load(uri).into(imageView)
+            Glide.with(this).load(uri).into(findViewById(R.id.imageView))
             noImageText.visibility = View.GONE
         } else {
             Toast.makeText(this, "이미지가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show()

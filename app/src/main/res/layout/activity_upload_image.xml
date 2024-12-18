@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            android:padding="2dp"
             android:background="@drawable/image_view" />
 
         <!-- TextView - 기본적으로 표시되도록 설정 -->
@@ -36,7 +37,7 @@
             android:id="@+id/noImageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No Selected Image"
+            android:text="이미지가 선택되지 않았습니다."
             android:textSize="18sp"
             android:textColor="@android:color/darker_gray"
             android:layout_gravity="center" />
