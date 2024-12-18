@@ -14,13 +14,13 @@ import com.google.gson.Gson
 import java.time.Instant
 import java.time.ZoneOffset
 
-class SecondActivity : AppCompatActivity() {
+class NaverOcrActivity : AppCompatActivity() {
 
     private lateinit var sendSamsungHealthButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_second)
+        setContentView(R.layout.activity_naver_ocr)
 
         // Intent로부터 전달된 데이터 수신
         val response = intent.getStringExtra("response")
@@ -103,7 +103,7 @@ class SecondActivity : AppCompatActivity() {
             val gson = Gson()
             val nutritionJson = gson.toJson(nutritionData)
 
-            val intent = Intent(this@SecondActivity, SamsungHealthActivity::class.java).apply {
+            val intent = Intent(this@NaverOcrActivity, SamsungHealthActivity::class.java).apply {
                 putExtra("nutritionData", nutritionJson)
             }
             startActivity(intent)

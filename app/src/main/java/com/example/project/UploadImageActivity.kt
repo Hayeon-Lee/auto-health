@@ -22,7 +22,7 @@ import java.net.URL
 import java.util.UUID
 import android.content.Intent
 
-class MainActivity : ComponentActivity() {
+class UploadImageActivity : ComponentActivity() {
 
     private lateinit var openGallerybutton: Button
     private lateinit var imageView: ImageView
@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout)
+        setContentView(R.layout.activity_upload_image)
 
         openGallerybutton = findViewById(R.id.openGalleryButton)
         imageView = findViewById(R.id.imageView)
@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 val response = doOcr() // suspend 함수 호출
                 response?.let {
-                    val intent = Intent(this@MainActivity, SecondActivity::class.java).apply {
+                    val intent = Intent(this@UploadImageActivity, NaverOcrActivity::class.java).apply {
                         putExtra("response", it) // OCR 결과값 전달
                     }
                     startActivity(intent)
@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
     private suspend fun doOcr(): String? {
         if (selectedImageUri == null) {
             withContext(Dispatchers.Main) {
-                Toast.makeText(this@MainActivity, "사진을 골라주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@UploadImageActivity, "사진을 골라주세요.", Toast.LENGTH_SHORT).show()
             }
             return null
         }
@@ -97,12 +97,12 @@ class MainActivity : ComponentActivity() {
         val file = getFileFromUri(selectedImageUri!!)
         if (file != null) {
             withContext(Dispatchers.Main) {
-                Toast.makeText(this@MainActivity, "OCR을 실행합니다...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@UploadImageActivity, "OCR을 실행합니다...", Toast.LENGTH_SHORT).show()
             }
             return callNaverOcrApi(file) // API 결과 반환
         } else {
             withContext(Dispatchers.Main) {
-                Toast.makeText(this@MainActivity, "파일 변환 실패!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@UploadImageActivity, "파일 변환 실패!", Toast.LENGTH_SHORT).show()
             }
             return null
         }
