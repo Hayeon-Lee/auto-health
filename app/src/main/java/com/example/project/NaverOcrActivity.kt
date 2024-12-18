@@ -137,9 +137,11 @@ class NaverOcrActivity : AppCompatActivity() {
                             val nextText = nextField.getString("inferText")
 
                             // 정규식을 사용해 숫자와 소수점만 추출
-                            val numberMatch = Regex("""\d+(\.\d+)?""").find(nextText)
+                            val numberMatch = Regex("""\d{1,3}(,\d{3})*(\.\d+)?""").find(nextText)
                             if (numberMatch != null) {
-                                result[currentText] = numberMatch.value
+                                val numericString = numberMatch.value.replace(",", "") // 반점 제거
+                                val numericValue = numericString.toDoubleOrNull() ?: continue // 숫자로 변환
+                                result[currentText] = numericValue // 숫자로 저장
                             }
                         }
                     }
