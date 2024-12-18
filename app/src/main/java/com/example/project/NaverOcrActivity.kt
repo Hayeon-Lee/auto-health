@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioGroup
 import android.content.Intent
 import android.util.Log
 import androidx.health.connect.client.records.NutritionRecord
@@ -17,6 +18,7 @@ import java.time.ZoneOffset
 class NaverOcrActivity : AppCompatActivity() {
 
     private lateinit var sendSamsungHealthButton: Button
+    private var selectedMealType = 1 // 기본값: 아침
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +72,21 @@ class NaverOcrActivity : AppCompatActivity() {
         editCalcium.setText(result["칼슘"]?.toString() ?: "")
         editIron.setText(result["철분"]?.toString() ?: "")
 
+        // RadioGroup에서 선택된 mealType 가져오기
+        val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
+
+        // RadioGroup 선택 값 변경 리스너 추가
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            selectedMealType = when (checkedId) {
+                R.id.breakfast -> 1
+                R.id.lunch -> 2
+                R.id.dinner -> 3
+                R.id.snack -> 4
+                else -> 1 // 기본값
+            }
+            Log.d("NaverOcrActivity", "Selected meal type: $selectedMealType")
+        }
+
         sendSamsungHealthButton = findViewById(R.id.sendSamsungHealthButton)
         sendSamsungHealthButton.setOnClickListener {
             // NutritionRecord에 필요한 데이터 수집
@@ -93,8 +110,8 @@ class NaverOcrActivity : AppCompatActivity() {
                 vitaminC = Mass.milligrams(editVitaminC.text.toString().toDoubleOrNull() ?: 0.0),
                 calcium = Mass.milligrams(editCalcium.text.toString().toDoubleOrNull() ?: 0.0),
                 iron = Mass.milligrams(editIron.text.toString().toDoubleOrNull() ?: 0.0),
-                name = editName.text.toString()?: null, // 이름은 고정 값 또는 사용자 입력 추가 가능
-                mealType = 1
+                name = editName.text.toString() ?: null, // 이름은 고정 값 또는 사용자 입력 추가 가능
+                mealType = selectedMealType // RadioGroup에서 가져온 선택값 반영
             )
 
             Log.d("name", "$nutritionData.name")
@@ -108,7 +125,6 @@ class NaverOcrActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
-
     }
 
     fun parseOcrResponse(response: String): Map<String, Any> {
@@ -153,7 +169,4 @@ class NaverOcrActivity : AppCompatActivity() {
 
         return result
     }
-
 }
-
-
