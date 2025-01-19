@@ -4,4 +4,9 @@
         <item name="android:textColorHint">#B3FFFFFF</item> <!-- 힌트 흰색 -->
         <item name="android:backgroundTint">#FFFFFF</item> <!-- 배경선 흰색 -->
     </style>
+
+    <style name="CustomRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:textColor">#FFFFFF</item> <!-- 텍스트 흰색 -->
+        <item name="android:buttonTint">#FFFFFF</item> <!-- 선택된 원 흰색 -->
+    </style>
 </resources>
