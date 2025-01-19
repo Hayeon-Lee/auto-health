@@ -19,6 +19,8 @@ import java.time.Instant
 import java.time.ZoneOffset
 import androidx.health.connect.client.units.Energy
 import androidx.health.connect.client.units.Mass
+import android.content.Intent
+import androidx.activity.OnBackPressedCallback
 
 class SamsungHealthActivity : AppCompatActivity() {
 
@@ -89,6 +91,17 @@ class SamsungHealthActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // OnBackPressedDispatcher 설정
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 첫 화면으로 이동하는 Intent
+                val intent = Intent(this@SamsungHealthActivity, UploadImageActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                finish() // 현재 Activity 종료
+            }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
