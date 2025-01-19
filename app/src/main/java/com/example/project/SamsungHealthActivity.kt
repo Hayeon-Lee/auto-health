@@ -19,6 +19,9 @@ import java.time.Instant
 import java.time.ZoneOffset
 import androidx.health.connect.client.units.Energy
 import androidx.health.connect.client.units.Mass
+import android.content.Intent
+import android.net.Uri
+import android.widget.Button
 
 class SamsungHealthActivity : AppCompatActivity() {
 
