@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <style name="Theme.Project" parent="Theme.AppCompat.Light.DarkActionBar">
-            <item name="colorPrimary">#121212</item> <!-- 어두운 기본 색 -->
-            <item name="colorPrimaryVariant">#3700B3</item>
-            <item name="colorSecondary">#BB86FC</item>
-            <item name="android:colorBackground">#121212</item> <!-- 어두운 배경 -->
-            <item name="android:textColor">#FFFFFF</item> <!-- 텍스트 색상 -->
-        </style>
-
+    <style name="Theme.Project" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your dark theme here -->
+        <item name="colorPrimary">#121212</item> <!-- 어두운 기본 색 -->
+        <item name="colorPrimaryVariant">#3700B3</item>
+        <item name="colorSecondary">#BB86FC</item>
+        <item name="android:colorBackground">#121212</item> <!-- 어두운 배경 -->
+        <item name="android:textColor">#FFFFFF</item> <!-- 텍스트 색상 -->
+        <item name="editTextStyle">@style/CustomEditText</item> <!-- CustomEditText 스타일 적용 -->
+    </style>
 </resources>

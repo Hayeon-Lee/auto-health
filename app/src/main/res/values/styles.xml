@@ -1,0 +1,7 @@
+<resources>
+    <style name="CustomEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">#FFFFFF</item> <!-- 텍스트 흰색 -->
+        <item name="android:textColorHint">#B3FFFFFF</item> <!-- 힌트 흰색 -->
+        <item name="android:backgroundTint">#FFFFFF</item> <!-- 배경선 흰색 -->
+    </style>
+</resources>
