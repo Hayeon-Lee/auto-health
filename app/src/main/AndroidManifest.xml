@@ -28,6 +28,7 @@
         <activity
             android:name=".NaverOcrActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.Project" />
         <activity
             android:name=".UploadImageActivity"
